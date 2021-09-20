@@ -1,34 +1,26 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import './question.dart';
+import './answer.dart';
 
 void main() => runApp(QuizApp());
 
 class QuizApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return QuizAppState();
+    return _QuizAppState();
   }
 }
 
-class QuizAppState extends State<QuizApp> {
-  void answerChosen(int number) {
-    setState(() {
-      if (questionIndex >= 2) questionIndex = 0;
-      if (optionIndex >= 11) optionIndex = 0;
-      questionIndex = questionIndex + 1;
-      optionIndex = optionIndex + 4;
-      print('Answer $number is chosen!');
-    });
-  }
-
-  int questionIndex = 0;
-  int optionIndex = 0;
-  var questions = [
+class _QuizAppState extends State<QuizApp> {
+  int _questionIndex = 0;
+  int _optionIndex = 0;
+  var _questions = [
     'Which is your favorite color?',
     'Which is your favorite animal?',
     'What do you identify as?'
   ];
-  var options = [
+  var _options = [
     'Red',
     'Black',
     'Blue',
@@ -42,41 +34,32 @@ class QuizAppState extends State<QuizApp> {
     'Toaster',
     'Tree',
   ];
+  void _answerChosen() {
+    if (_questionIndex >= 2) _questionIndex = 0;
+    if (_optionIndex >= 12) _optionIndex = 0;
+    setState(() {
+      _questionIndex = _questionIndex + 1;
+      _optionIndex = _optionIndex + 4;
+      print('Answer is chosen!');
+    });
+  }
+
   @override // It is used as a decorator and is feature of flutter and not dart
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.redAccent,
+          // backgroundColor: Colors.redAccent,
           title: Text('Forktail Arts'),
         ),
-        body: Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.fromLTRB(80, 200, 80, 200),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                questions[questionIndex],
-                style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'arial',
-                    fontWeight: FontWeight.bold),
-              ),
-              ElevatedButton(
-                  onPressed: () => answerChosen(1),
-                  child: Text(options[optionIndex])),
-              ElevatedButton(
-                  onPressed: () => answerChosen(2),
-                  child: Text(options[optionIndex + 1])),
-              ElevatedButton(
-                  onPressed: () => answerChosen(3),
-                  child: Text(options[optionIndex + 2])),
-              ElevatedButton(
-                  onPressed: () => answerChosen(4),
-                  child: Text(options[optionIndex + 3])),
-            ],
-          ),
+        body: Column(
+          children: [
+            Questions(_questions[_questionIndex]),
+            Answers(_answerChosen, _options[_optionIndex]),
+            Answers(_answerChosen, _options[_optionIndex + 1]),
+            Answers(_answerChosen, _options[_optionIndex + 2]),
+            Answers(_answerChosen, _options[_optionIndex + 3]),
+          ],
         ),
       ),
     );
