@@ -15,6 +15,30 @@ class QuizApp extends StatefulWidget {
 class _QuizAppState extends State<QuizApp> {
   int _questionIndex = 0;
   int _optionIndex = 0;
+  // var questionOptions = [
+  //   {
+  //     'questionText': 'Which is your favorite color?',
+  //     'option': [
+  //       'Red',
+  //       'Black',
+  //       'Blue',
+  //       'White',
+  //     ],
+  //   },
+  //   {
+  //     'questionText': 'Which is your favorite animal?',
+  //     'option': [
+  //       'Dog',
+  //       'Cat',
+  //       'Tiger',
+  //       'Sloth',
+  //     ],
+  //   },
+  //   {
+  //     'questionText': 'What do you identify as?',
+  //     'option': ['Male', 'Female', 'Toaster', 'Tree'],
+  //   },
+  // ];
   var _questions = [
     'Which is your favorite color?',
     'Which is your favorite animal?',
@@ -34,9 +58,16 @@ class _QuizAppState extends State<QuizApp> {
     'Toaster',
     'Tree',
   ];
+
+  void resetQuiz() {
+    setState(() {
+      _questionIndex = _optionIndex = 0;
+    });
+  }
+
   void _answerChosen() {
-    if (_questionIndex >= 2) _questionIndex = 0;
-    if (_optionIndex >= 12) _optionIndex = 0;
+    // if (_questionIndex >= 2) _questionIndex = 0;
+    // if (_optionIndex >= 12) _optionIndex = 0;
     setState(() {
       _questionIndex = _questionIndex + 1;
       _optionIndex = _optionIndex + 4;
@@ -47,20 +78,47 @@ class _QuizAppState extends State<QuizApp> {
   @override // It is used as a decorator and is feature of flutter and not dart
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+          textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(primary: Colors.red))),
       home: Scaffold(
         appBar: AppBar(
           // backgroundColor: Colors.redAccent,
-          title: Text('Forktail Arts'),
+          elevation: 12,
+          centerTitle: true,
+
+          backgroundColor: Colors.green,
+          title: Text('Forktail Arts Quiz'),
         ),
-        body: Column(
-          children: [
-            Questions(_questions[_questionIndex]),
-            Answers(_answerChosen, _options[_optionIndex]),
-            Answers(_answerChosen, _options[_optionIndex + 1]),
-            Answers(_answerChosen, _options[_optionIndex + 2]),
-            Answers(_answerChosen, _options[_optionIndex + 3]),
-          ],
-        ),
+        body: _questionIndex < _questions.length
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Questions(_questions[_questionIndex]),
+                  Answers(_answerChosen, _options[_optionIndex]),
+                  Answers(_answerChosen, _options[_optionIndex + 1]),
+                  Answers(_answerChosen, _options[_optionIndex + 2]),
+                  Answers(_answerChosen, _options[_optionIndex + 3]),
+                ],
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                      child: Text(
+                    'You have finished the quiz!',
+                    style: TextStyle(fontSize: 20),
+                  )),
+                  ElevatedButton(
+                    onPressed: resetQuiz,
+                    child: Text("Reset"),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.green),
+                    ),
+                  )
+                ],
+              ),
       ),
     );
   }
