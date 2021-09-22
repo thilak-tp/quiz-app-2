@@ -7,12 +7,14 @@ class Answers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 50,
+      margin: EdgeInsets.all(20),
       width: double.infinity,
       child: ElevatedButton(
         onPressed: selector,
         child: Text(option),
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.amber),
         ),
       ),
     );
