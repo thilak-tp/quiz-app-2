@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizapp2/homePage.dart';
-import 'package:quizapp2/main.dart';
+import 'loadingAnimation.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -13,22 +12,18 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    _navigateToHome();
+    _navigateToLoadingAnimation();
   }
 
-  _navigateToHome() async {
-    await Future.delayed(Duration(milliseconds: 2000), () {});
+  _navigateToLoadingAnimation() async {
+    await Future.delayed(Duration(milliseconds: 10000), () {});
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomePage()));
+        context, MaterialPageRoute(builder: (context) => LoadingAnimation()));
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          child: Image.asset('assets/logo.png'),
-        ),
-      ),
+      body: Center(child: Image.asset('assets/logo.png')),
     );
   }
 }
